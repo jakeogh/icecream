@@ -145,8 +145,8 @@ def format_pair(prefix, arg, value):
     return '\n'.join(lines)
 
 
-def argumentToString(obj):
-    s = DEFAULT_ARG_TO_STRING_FUNCTION(obj)
+def argumentToString(obj, lineWrapWidth):
+    s = DEFAULT_ARG_TO_STRING_FUNCTION(obj, width=lineWrapWidth)
     s = s.replace('\\n', '\n')  # Preserve string newlines in output.
     print("s:", s)
     return s
@@ -224,7 +224,7 @@ class IceCreamDebugger:
         def argPrefix(arg):
             return '%s: ' % arg
 
-        pairs = [(arg, self.argToStringFunction(val)) for arg, val in pairs]
+        pairs = [(arg, self.argToStringFunction(val, self.lineWrapWidth)) for arg, val in pairs]
         print("pairs:", pairs)
 
         allArgsOnOneLine = self._pairDelimiter.join(
