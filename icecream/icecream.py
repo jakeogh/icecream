@@ -264,7 +264,7 @@ class IceCreamDebugger:
         # ic| a: 1, b: 2, c: 3
         else:
             lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
-            #print("lines:", lines)
+        print("lines:", lines)
 
         return '\n'.join(lines)
 
