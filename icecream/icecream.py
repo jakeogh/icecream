@@ -224,6 +224,7 @@ class IceCreamDebugger:
             return '%s: ' % arg
 
         pairs = [(arg, self.argToStringFunction(val)) for arg, val in pairs]
+        print("pairs:", pairs)
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
