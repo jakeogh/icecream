@@ -232,7 +232,7 @@ class IceCreamDebugger:
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
-
+        print("firstLineTooLong:", firstLineTooLong)
         #if multilineArgs or firstLineTooLong:
         if multilineArgs:
             # ic| foo.py:11 in foo()
