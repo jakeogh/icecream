@@ -148,7 +148,6 @@ def format_pair(prefix, arg, value):
 def argumentToString(obj, lineWrapWidth):
     s = DEFAULT_ARG_TO_STRING_FUNCTION(obj, width=lineWrapWidth)
     s = s.replace('\\n', '\n')  # Preserve string newlines in output.
-    print("s:", s)
     return s
 
 
@@ -225,7 +224,6 @@ class IceCreamDebugger:
             return '%s: ' % arg
 
         pairs = [(arg, self.argToStringFunction(val, self.lineWrapWidth)) for arg, val in pairs]
-        print("pairs:", pairs)
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
@@ -233,11 +231,8 @@ class IceCreamDebugger:
 
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
-        #print("appPairs:", allPairs)
 
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
-        #print("firstLineTooLong:", firstLineTooLong)
-        #print("multilineArgs:", multilineArgs)
 
         if multilineArgs or firstLineTooLong:
             # ic| foo.py:11 in foo()
@@ -266,10 +261,7 @@ class IceCreamDebugger:
         # ic| foo.py:11 in foo()- a: 1, b: 2
         # ic| a: 1, b: 2, c: 3
         else:
-            #print("else")
             lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
-
-        #print("lines:", lines)
 
         return '\n'.join(lines)
 
