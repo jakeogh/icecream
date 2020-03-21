@@ -227,15 +227,16 @@ class IceCreamDebugger:
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
-        multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
+        #multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
 
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
-        print("firstLineTooLong:", firstLineTooLong)
-        print("multilineArgs:", multilineArgs)
+        #print("firstLineTooLong:", firstLineTooLong)
+        #print("multilineArgs:", multilineArgs)
 
-        if multilineArgs or firstLineTooLong:
+        #if multilineArgs or firstLineTooLong:
+        if firstLineTooLong:
             # ic| foo.py:11 in foo()
             #     multilineStr: 'line1
             #                    line2'
@@ -263,7 +264,7 @@ class IceCreamDebugger:
         # ic| a: 1, b: 2, c: 3
         else:
             lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
-            print("lines:", lines)
+            #print("lines:", lines)
 
         return '\n'.join(lines)
 
