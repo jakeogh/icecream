@@ -231,6 +231,8 @@ class IceCreamDebugger:
 
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
+        print("appPairs:", allPairs)
+
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
         print("firstLineTooLong:", firstLineTooLong)
         #print("multilineArgs:", multilineArgs)
@@ -263,7 +265,9 @@ class IceCreamDebugger:
         # ic| foo.py:11 in foo()- a: 1, b: 2
         # ic| a: 1, b: 2, c: 3
         else:
+            print("else")
             lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
+
         print("lines:", lines)
 
         return '\n'.join(lines)
