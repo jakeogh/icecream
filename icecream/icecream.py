@@ -233,7 +233,8 @@ class IceCreamDebugger:
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
 
-        if multilineArgs or firstLineTooLong:
+        #if multilineArgs or firstLineTooLong:
+        if multilineArgs:
             # ic| foo.py:11 in foo()
             #     multilineStr: 'line1
             #                    line2'
