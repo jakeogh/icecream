@@ -291,7 +291,7 @@ class IceCreamDebugger:
     def enable(self):
         self.enabled = True
 
-    def disable(self):
+    def _disable(self):
         self.enabled = False
 
     def configureOutput(self, prefix=_absent, outputFunction=_absent,
