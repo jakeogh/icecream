@@ -17,6 +17,7 @@ import ast
 import inspect
 import pprint
 import sys
+from shutil import get_terminal_size
 from contextlib import contextmanager
 from datetime import datetime
 from os.path import basename
@@ -75,7 +76,8 @@ def colorizedStderrPrint(s):
 
 
 DEFAULT_PREFIX = 'ic| '
-DEFAULT_LINE_WRAP_WIDTH = 70  # Characters.
+#DEFAULT_LINE_WRAP_WIDTH = 70  # Characters.
+DEFAULT_LINE_WRAP_WIDTH, _ = get_terminal_size((80, 20))  # Characters.
 DEFAULT_CONTEXT_DELIMITER = '- '
 DEFAULT_OUTPUT_FUNCTION = colorizedStderrPrint
 DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
@@ -158,7 +160,7 @@ class IceCreamDebugger:
 
     def __init__(self, prefix=DEFAULT_PREFIX,
                  outputFunction=DEFAULT_OUTPUT_FUNCTION,
-                 argToStringFunction=argumentToString, includeContext=False):
+                 argToStringFunction=argumentToString, includeContext=True):
         self.enabled = True
         self.prefix = prefix
         self.includeContext = includeContext
