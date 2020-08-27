@@ -84,6 +84,7 @@ def colorizedStderrPrint(s):
 DEFAULT_PREFIX = 'ic| '
 #DEFAULT_LINE_WRAP_WIDTH = 70  # Characters.
 DEFAULT_LINE_WRAP_WIDTH, _ = get_terminal_size((80, 20))  # Characters.
+eprint("DEFAULT_LINE_WRAP_WIDTH:", DEFAULT_LINE_WRAP_WIDTH)
 DEFAULT_CONTEXT_DELIMITER = '- '
 DEFAULT_OUTPUT_FUNCTION = colorizedStderrPrint
 #DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
