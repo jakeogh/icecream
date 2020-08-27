@@ -247,6 +247,8 @@ class IceCreamDebugger:
 
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
         eprint("firstLineTooLong:", firstLineTooLong)
+        eprint("len(allPairs.splitlines()[0]):", len(allPairs.splitlines()[0]))
+        eprint("self.lineWrapWidth:", self.lineWrapWidth)
 
         if multilineArgs or firstLineTooLong:
             # ic| foo.py:11 in foo()
