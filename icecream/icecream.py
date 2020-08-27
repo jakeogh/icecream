@@ -22,6 +22,7 @@ from contextlib import contextmanager
 from datetime import datetime
 from os.path import basename
 from textwrap import dedent
+from kcl.printops import eprint
 
 import colorama
 import executing
@@ -231,12 +232,15 @@ class IceCreamDebugger:
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
+        eprint("allArgsOnOneLine:", allArgsOnOneLine)
         multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
+        eprint("multilineArgs:", multilineArgs)
 
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
 
         firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
+        eprint("firstLineTooLong:", firstLineTooLong)
 
         if multilineArgs or firstLineTooLong:
             # ic| foo.py:11 in foo()
