@@ -238,8 +238,9 @@ class IceCreamDebugger:
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
         eprint("allArgsOnOneLine:", allArgsOnOneLine)
-        multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
-        eprint("multilineArgs:", multilineArgs)
+        #multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
+        multilineArgs = False
+        #eprint("multilineArgs:", multilineArgs)
 
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
