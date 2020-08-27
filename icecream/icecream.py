@@ -22,7 +22,6 @@ from contextlib import contextmanager
 from datetime import datetime
 from os.path import basename
 from textwrap import dedent
-from kcl.printops import eprint
 
 import colorama
 import executing
@@ -40,6 +39,12 @@ PYTHON2 = (sys.version_info[0] == 2)
 
 
 _absent = object()
+
+
+def eprint(*args, **kwargs):
+    if 'file' in kwargs.keys():
+        kwargs.pop('file')
+    print(*args, file=sys.stderr, **kwargs)
 
 
 def bindStaticVariable(name, value):
