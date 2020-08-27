@@ -102,7 +102,6 @@ setup(
         'pygments>=2.2.0',
         'executing>=0.3.1',
         'asttokens>=2.0.1',
-        'shutil',
     ],
     cmdclass={
         'test': RunTests,
