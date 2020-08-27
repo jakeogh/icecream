@@ -81,7 +81,7 @@ DEFAULT_LINE_WRAP_WIDTH, _ = get_terminal_size((80, 20))  # Characters.
 DEFAULT_CONTEXT_DELIMITER = '- '
 DEFAULT_OUTPUT_FUNCTION = colorizedStderrPrint
 #DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
-DEFAULT_ARG_TO_STRING_FUNCTION = print
+DEFAULT_ARG_TO_STRING_FUNCTION = repr
 
 
 class NoSourceAvailableError(OSError):
