@@ -17,7 +17,7 @@ import ast
 import inspect
 import pprint
 import sys
-from shutil import get_terminal_size
+#from shutil import get_terminal_size
 from contextlib import contextmanager
 from datetime import datetime
 from os.path import basename
@@ -83,8 +83,8 @@ def colorizedStderrPrint(s):
 
 DEFAULT_PREFIX = 'ic| '
 #DEFAULT_LINE_WRAP_WIDTH = 70  # Characters.
-DEFAULT_LINE_WRAP_WIDTH, _ = get_terminal_size((80, 20))  # Characters.
-eprint("DEFAULT_LINE_WRAP_WIDTH:", DEFAULT_LINE_WRAP_WIDTH)
+#DEFAULT_LINE_WRAP_WIDTH, _ = get_terminal_size((80, 20))  # Characters.
+#eprint("DEFAULT_LINE_WRAP_WIDTH:", DEFAULT_LINE_WRAP_WIDTH)
 DEFAULT_CONTEXT_DELIMITER = '- '
 DEFAULT_OUTPUT_FUNCTION = colorizedStderrPrint
 #DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
@@ -155,7 +155,7 @@ def format_pair(prefix, arg, value):
     return '\n'.join(lines)
 
 
-def argumentToString(obj, lineWrapWidth):
+def argumentToString(obj):
     s = DEFAULT_ARG_TO_STRING_FUNCTION(obj)
     #s = DEFAULT_ARG_TO_STRING_FUNCTION(obj, width=lineWrapWidth)
     s = s.replace('\\n', '\n')  # Preserve string newlines in output.
@@ -164,7 +164,7 @@ def argumentToString(obj, lineWrapWidth):
 
 class IceCreamDebugger:
     _pairDelimiter = ', '  # Used by the tests in tests/.
-    lineWrapWidth = DEFAULT_LINE_WRAP_WIDTH
+    #lineWrapWidth = DEFAULT_LINE_WRAP_WIDTH
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
 
     def __init__(self, prefix=DEFAULT_PREFIX,
@@ -234,51 +234,51 @@ class IceCreamDebugger:
         def argPrefix(arg):
             return '%s: ' % arg
 
-        pairs = [(arg, self.argToStringFunction(val, self.lineWrapWidth)) for arg, val in pairs]
+        pairs = [(arg, self.argToStringFunction(val)) for arg, val in pairs]
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
         eprint("allArgsOnOneLine:", allArgsOnOneLine)
         #multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
-        multilineArgs = False
+        #multilineArgs = False
         #eprint("multilineArgs:", multilineArgs)
 
         contextDelimiter = self.contextDelimiter if context else ''
         allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
 
-        firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
-        eprint("firstLineTooLong:", firstLineTooLong)
-        eprint("len(allPairs.splitlines()[0]):", len(allPairs.splitlines()[0]))
-        eprint("self.lineWrapWidth:", self.lineWrapWidth)
+        #firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
+        #eprint("firstLineTooLong:", firstLineTooLong)
+        #eprint("len(allPairs.splitlines()[0]):", len(allPairs.splitlines()[0]))
+        #eprint("self.lineWrapWidth:", self.lineWrapWidth)
 
-        if multilineArgs or firstLineTooLong:
-            # ic| foo.py:11 in foo()
-            #     multilineStr: 'line1
-            #                    line2'
-            #
-            # ic| foo.py:11 in foo()
-            #     a: 11111111111111111111
-            #     b: 22222222222222222222
-            if context:
-                lines = [prefix + context] + [
-                    format_pair(len(prefix) * ' ', arg, value)
-                    for arg, value in pairs
-                ]
-            # ic| multilineStr: 'line1
-            #                    line2'
-            #
-            # ic| a: 11111111111111111111
-            #     b: 22222222222222222222
-            else:
-                arg_lines = [
-                    format_pair('', arg, value)
-                    for arg, value in pairs
-                ]
-                lines = indented_lines(prefix, '\n'.join(arg_lines))
-        # ic| foo.py:11 in foo()- a: 1, b: 2
-        # ic| a: 1, b: 2, c: 3
-        else:
-            lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
+        #if multilineArgs or firstLineTooLong:
+        #    # ic| foo.py:11 in foo()
+        #    #     multilineStr: 'line1
+        #    #                    line2'
+        #    #
+        #    # ic| foo.py:11 in foo()
+        #    #     a: 11111111111111111111
+        #    #     b: 22222222222222222222
+        #    if context:
+        #        lines = [prefix + context] + [
+        #            format_pair(len(prefix) * ' ', arg, value)
+        #            for arg, value in pairs
+        #        ]
+        #    # ic| multilineStr: 'line1
+        #    #                    line2'
+        #    #
+        #    # ic| a: 11111111111111111111
+        #    #     b: 22222222222222222222
+        #    else:
+        #        arg_lines = [
+        #            format_pair('', arg, value)
+        #            for arg, value in pairs
+        #        ]
+        #        lines = indented_lines(prefix, '\n'.join(arg_lines))
+        ## ic| foo.py:11 in foo()- a: 1, b: 2
+        ## ic| a: 1, b: 2, c: 3
+        #else:
+        lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
 
         return '\n'.join(lines)
 
