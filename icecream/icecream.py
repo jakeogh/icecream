@@ -224,7 +224,7 @@ class IceCreamDebugger:
         return out
 
     def _format(self, callFrame, *args):
-        eprint("args:", args)
+        #eprint("args:", args)
         prefix = callOrValue(self.prefix)
         #eprint("prefix:", prefix)  # ic|
 
@@ -261,7 +261,7 @@ class IceCreamDebugger:
             return '%s: ' % arg
 
         pairs = [(arg, self.argToStringFunction(val)) for arg, val in pairs]
-        eprint("pairs:", pairs)
+        #eprint("pairs:", pairs)
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
