@@ -224,8 +224,9 @@ class IceCreamDebugger:
         return out
 
     def _format(self, callFrame, *args):
-        eprint(args)
+        eprint("args:", args)
         prefix = callOrValue(self.prefix)
+        eprint("prefix:", prefix)
 
         callNode = Source.executing(callFrame).node
         if callNode is None:
