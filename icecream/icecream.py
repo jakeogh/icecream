@@ -252,15 +252,16 @@ class IceCreamDebugger:
             for arg in callNode.args]
 
         pairs = list(zip(sanitizedArgStrs, args))
-        eprint("pairs:", pairs)
-        out = self._constructArgumentOutput(prefix, context, pairs)
+        #eprint("pairs:", pairs)
+        out = self._construct_argument_output(prefix, context, pairs)
         return out
 
-    def _constructArgumentOutput(self, prefix, context, pairs):
+    def _constructi_argument_output(self, prefix, context, pairs):
         def argPrefix(arg):
             return '%s: ' % arg
 
         pairs = [(arg, self.argToStringFunction(val)) for arg, val in pairs]
+        eprint("pairs:", pairs)
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
