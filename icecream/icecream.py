@@ -84,15 +84,15 @@ def format_context(callFrame, callNode):
     return context
 
 
-def bindStaticVariable(name, value):
+def bind_static_variable(name, value):
     def decorator(fn):
         setattr(fn, name, value)
         return fn
     return decorator
 
 
-@bindStaticVariable('formatter', Terminal256Formatter(style=SolarizedDark))
-@bindStaticVariable('lexer', Python3Lexer(ensurenl=False))
+@bind_static_variable('formatter', Terminal256Formatter(style=SolarizedDark))
+@bind_static_variable('lexer', Python3Lexer(ensurenl=False))
 def colorize(s):
     self = colorize
     return highlight(s, self.lexer, self.formatter)
@@ -107,19 +107,14 @@ def supportTerminalColorsInWindows():
     colorama.deinit()
 
 
-def stderrPrint(*args):
-    print(*args, file=sys.stderr)
-
-
-def colorizedStderrPrint(s):
+def colorized_stderr_print(s):
     colored = colorize(s)
     with supportTerminalColorsInWindows():
-        stderrPrint(colored)
+        eprint(colored)
 
 
 DEFAULT_PREFIX = 'ic| '
 DEFAULT_CONTEXT_DELIMITER = '- '
-DEFAULT_OUTPUT_FUNCTION = colorizedStderrPrint
 #DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
 DEFAULT_ARG_TO_STRING_FUNCTION = repr
 
@@ -199,11 +194,9 @@ class IceCreamDebugger:
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
 
     def __init__(self, prefix=DEFAULT_PREFIX,
-                 outputFunction=DEFAULT_OUTPUT_FUNCTION,
                  argToStringFunction=argumentToString, includeContext=True):
         self.prefix = prefix
         self.includeContext = includeContext
-        self.outputFunction = outputFunction
         self.argToStringFunction = argToStringFunction
 
     def __call__(self, *args):
@@ -213,13 +206,13 @@ class IceCreamDebugger:
         except NoSourceAvailableError as err:
             prefix = callOrValue(self.prefix)
             out = prefix + 'Error: ' + err.infoMessage
-        self.outputFunction(out)
+        colorized_stderr_print(out)
 
-        if not args:  # E.g. ic().
+        if not args:            # E.g. ic().
             passthrough = None
-        elif len(args) == 1:  # E.g. ic(1).
+        elif len(args) == 1:    # E.g. ic(1).
             passthrough = args[0]
-        else:  # E.g. ic(1, 2, 3).
+        else:                   # E.g. ic(1, 2, 3).
             passthrough = args
 
         return passthrough
@@ -273,13 +266,12 @@ class IceCreamDebugger:
 
         return '\n'.join(lines)
 
-    def configureOutput(self, prefix=_absent, outputFunction=_absent,
-                        argToStringFunction=_absent, includeContext=_absent):
+    def configureOutput(self,
+                        prefix=_absent,
+                        argToStringFunction=_absent,
+                        includeContext=_absent):
         if prefix is not _absent:
             self.prefix = prefix
-
-        if outputFunction is not _absent:
-            self.outputFunction = outputFunction
 
         if argToStringFunction is not _absent:
             self.argToStringFunction = argToStringFunction
