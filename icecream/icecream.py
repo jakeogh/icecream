@@ -220,6 +220,7 @@ class IceCreamDebugger:
     def format(self, *args):
         callFrame = inspect.currentframe().f_back
         out = self._format(callFrame, *args)
+        eprint(out)
         return out
 
     def _format(self, callFrame, *args):
