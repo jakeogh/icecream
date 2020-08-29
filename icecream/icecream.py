@@ -233,26 +233,26 @@ class IceCreamDebugger:
             raise NoSourceAvailableError()
 
         context = format_context(callFrame, callNode)
-        eprint("context:", context)
+        #eprint("context:", context)  # file.py:13 in <module>
         if not args:
             time = format_time()
             out = prefix + context + time
         else:
             if not self.includeContext:
                 context = ''
-            out = self._formatArgs(callFrame, callNode, prefix, context, args)
+            out = self._format_args(callFrame, callNode, prefix, context, args)
 
         #eprint(out)
         return out
 
-    def _formatArgs(self, callFrame, callNode, prefix, context, args):
+    def _format_args(self, callFrame, callNode, prefix, context, args):
         source = Source.for_frame(callFrame)
         sanitizedArgStrs = [
             source.get_text_with_indentation(arg)
             for arg in callNode.args]
 
         pairs = list(zip(sanitizedArgStrs, args))
-
+        eprint("pairs:", pairs)
         out = self._constructArgumentOutput(prefix, context, pairs)
         return out
 
