@@ -226,13 +226,14 @@ class IceCreamDebugger:
     def _format(self, callFrame, *args):
         eprint("args:", args)
         prefix = callOrValue(self.prefix)
-        eprint("prefix:", prefix)
+        #eprint("prefix:", prefix)  # ic|
 
         callNode = Source.executing(callFrame).node
         if callNode is None:
             raise NoSourceAvailableError()
 
         context = format_context(callFrame, callNode)
+        eprint("context:", context)
         if not args:
             time = format_time()
             out = prefix + context + time
