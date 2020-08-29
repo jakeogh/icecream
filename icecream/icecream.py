@@ -256,7 +256,7 @@ class IceCreamDebugger:
         out = self._construct_argument_output(prefix, context, pairs)
         return out
 
-    def _constructi_argument_output(self, prefix, context, pairs):
+    def _construct_argument_output(self, prefix, context, pairs):
         def argPrefix(arg):
             return '%s: ' % arg
 
