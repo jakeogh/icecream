@@ -11,13 +11,29 @@
 # License: MIT
 #
 
-from __future__ import print_function
 
-import ast
+# pylint: disable=C0111     # docstrings are always outdated and wrong
+# pylint: disable=W0511     # todo is encouraged
+# pylint: disable=C0301     # line too long
+# pylint: disable=R0902     # too many instance attributes
+# pylint: disable=C0302     # too many lines in module
+# pylint: disable=C0103     # single letter var names, func name too descriptive
+# pylint: disable=R0911     # too many return statements
+# pylint: disable=R0912     # too many branches
+# pylint: disable=R0915     # too many statements
+# pylint: disable=R0913     # too many arguments
+# pylint: disable=R1702     # too many nested blocks
+# pylint: disable=R0914     # too many local variables
+# pylint: disable=R0903     # too few public methods
+# pylint: disable=E1101     # no member for base
+# pylint: disable=W0201     # attribute defined outside __init__
+# pylint: disable=W0201     # attribute defined outside __init__
+
+
+#import ast
 import inspect
-import pprint
+#import pprint
 import sys
-#from shutil import get_terminal_size
 from contextlib import contextmanager
 from datetime import datetime
 from os.path import basename
@@ -30,12 +46,9 @@ from pygments import highlight
 # terminals and thus whether to use Terminal256Formatter or
 # TerminalTrueColorFormatter.
 from pygments.formatters import Terminal256Formatter
-from pygments.lexers import PythonLexer as PyLexer, Python3Lexer as Py3Lexer
+from pygments.lexers import Python3Lexer
 
 from .coloring import SolarizedDark
-
-
-PYTHON2 = (sys.version_info[0] == 2)
 
 
 _absent = object()
@@ -47,6 +60,30 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
+def format_time():
+    now = datetime.utcnow()
+    formatted = now.strftime('%H:%M:%S.%f')[:-3]
+    return ' at %s' % formatted
+
+
+def get_context(callFrame, callNode):
+    lineNumber = callNode.lineno
+    frameInfo = inspect.getframeinfo(callFrame)
+    parentFunction = frameInfo.function
+    filename = basename(frameInfo.filename)
+    return filename, lineNumber, parentFunction
+
+
+def format_context(callFrame, callNode):
+    filename, lineNumber, parentFunction = get_context(callFrame, callNode)
+
+    if parentFunction != '<module>':
+        parentFunction = '%s()' % parentFunction
+
+    context = '%s:%s in %s' % (filename, lineNumber, parentFunction)
+    return context
+
+
 def bindStaticVariable(name, value):
     def decorator(fn):
         setattr(fn, name, value)
@@ -55,8 +92,7 @@ def bindStaticVariable(name, value):
 
 
 @bindStaticVariable('formatter', Terminal256Formatter(style=SolarizedDark))
-@bindStaticVariable(
-    'lexer', PyLexer(ensurenl=False) if PYTHON2 else Py3Lexer(ensurenl=False))
+@bindStaticVariable('lexer', Python3Lexer(ensurenl=False))
 def colorize(s):
     self = colorize
     return highlight(s, self.lexer, self.formatter)
@@ -82,9 +118,6 @@ def colorizedStderrPrint(s):
 
 
 DEFAULT_PREFIX = 'ic| '
-#DEFAULT_LINE_WRAP_WIDTH = 70  # Characters.
-#DEFAULT_LINE_WRAP_WIDTH, _ = get_terminal_size((80, 20))  # Characters.
-#eprint("DEFAULT_LINE_WRAP_WIDTH:", DEFAULT_LINE_WRAP_WIDTH)
 DEFAULT_CONTEXT_DELIMITER = '- '
 DEFAULT_OUTPUT_FUNCTION = colorizedStderrPrint
 #DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
@@ -157,34 +190,30 @@ def format_pair(prefix, arg, value):
 
 def argumentToString(obj):
     s = DEFAULT_ARG_TO_STRING_FUNCTION(obj)
-    #s = DEFAULT_ARG_TO_STRING_FUNCTION(obj, width=lineWrapWidth)
     s = s.replace('\\n', '\n')  # Preserve string newlines in output.
     return s
 
 
 class IceCreamDebugger:
     _pairDelimiter = ', '  # Used by the tests in tests/.
-    #lineWrapWidth = DEFAULT_LINE_WRAP_WIDTH
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
 
     def __init__(self, prefix=DEFAULT_PREFIX,
                  outputFunction=DEFAULT_OUTPUT_FUNCTION,
                  argToStringFunction=argumentToString, includeContext=True):
-        self.enabled = True
         self.prefix = prefix
         self.includeContext = includeContext
         self.outputFunction = outputFunction
         self.argToStringFunction = argToStringFunction
 
     def __call__(self, *args):
-        if self.enabled:
-            callFrame = inspect.currentframe().f_back
-            try:
-                out = self._format(callFrame, *args)
-            except NoSourceAvailableError as err:
-                prefix = callOrValue(self.prefix)
-                out = prefix + 'Error: ' + err.infoMessage
-            self.outputFunction(out)
+        callFrame = inspect.currentframe().f_back
+        try:
+            out = self._format(callFrame, *args)
+        except NoSourceAvailableError as err:
+            prefix = callOrValue(self.prefix)
+            out = prefix + 'Error: ' + err.infoMessage
+        self.outputFunction(out)
 
         if not args:  # E.g. ic().
             passthrough = None
@@ -207,9 +236,9 @@ class IceCreamDebugger:
         if callNode is None:
             raise NoSourceAvailableError()
 
-        context = self._formatContext(callFrame, callNode)
+        context = format_context(callFrame, callNode)
         if not args:
-            time = self._formatTime()
+            time = format_time()
             out = prefix + context + time
         else:
             if not self.includeContext:
@@ -238,78 +267,11 @@ class IceCreamDebugger:
 
         allArgsOnOneLine = self._pairDelimiter.join(
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
-        #eprint("allArgsOnOneLine:", allArgsOnOneLine)
-        #multilineArgs = len(allArgsOnOneLine.splitlines()) > 1
-        #multilineArgs = False
-        #eprint("multilineArgs:", multilineArgs)
 
         contextDelimiter = self.contextDelimiter if context else ''
-        #allPairs = prefix + context + contextDelimiter + allArgsOnOneLine
-
-        #firstLineTooLong = len(allPairs.splitlines()[0]) > self.lineWrapWidth
-        #eprint("firstLineTooLong:", firstLineTooLong)
-        #eprint("len(allPairs.splitlines()[0]):", len(allPairs.splitlines()[0]))
-        #eprint("self.lineWrapWidth:", self.lineWrapWidth)
-
-        #if multilineArgs or firstLineTooLong:
-        #    # ic| foo.py:11 in foo()
-        #    #     multilineStr: 'line1
-        #    #                    line2'
-        #    #
-        #    # ic| foo.py:11 in foo()
-        #    #     a: 11111111111111111111
-        #    #     b: 22222222222222222222
-        #    if context:
-        #        lines = [prefix + context] + [
-        #            format_pair(len(prefix) * ' ', arg, value)
-        #            for arg, value in pairs
-        #        ]
-        #    # ic| multilineStr: 'line1
-        #    #                    line2'
-        #    #
-        #    # ic| a: 11111111111111111111
-        #    #     b: 22222222222222222222
-        #    else:
-        #        arg_lines = [
-        #            format_pair('', arg, value)
-        #            for arg, value in pairs
-        #        ]
-        #        lines = indented_lines(prefix, '\n'.join(arg_lines))
-        ## ic| foo.py:11 in foo()- a: 1, b: 2
-        ## ic| a: 1, b: 2, c: 3
-        #else:
         lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
 
         return '\n'.join(lines)
-
-    def _formatContext(self, callFrame, callNode):
-        filename, lineNumber, parentFunction = self._getContext(
-            callFrame, callNode)
-
-        if parentFunction != '<module>':
-            parentFunction = '%s()' % parentFunction
-
-        context = '%s:%s in %s' % (filename, lineNumber, parentFunction)
-        return context
-
-    def _formatTime(self):
-        now = datetime.utcnow()
-        formatted = now.strftime('%H:%M:%S.%f')[:-3]
-        return ' at %s' % formatted
-
-    def _getContext(self, callFrame, callNode):
-        lineNumber = callNode.lineno
-        frameInfo = inspect.getframeinfo(callFrame)
-        parentFunction = frameInfo.function
-        filename = basename(frameInfo.filename)
-
-        return filename, lineNumber, parentFunction
-
-    def enable(self):
-        self.enabled = True
-
-    def _disable(self):
-        self.enabled = False
 
     def configureOutput(self, prefix=_absent, outputFunction=_absent,
                         argToStringFunction=_absent, includeContext=_absent):
