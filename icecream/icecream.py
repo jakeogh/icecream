@@ -270,6 +270,7 @@ class IceCreamDebugger:
             val if arg == val else argPrefix(arg) + val for arg, val in pairs)
 
         contextDelimiter = self.contextDelimiter if context else ''
+        print(allArgsOnOneLine)
         lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
         print(lines)
 
