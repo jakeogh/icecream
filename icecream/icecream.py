@@ -244,7 +244,7 @@ class IceCreamDebugger:
                 context = ''
             out = self._format_args(callFrame, callNode, prefix, context, args)
 
-        eprint(out)
+        #eprint(out)
         return out
 
     def _format_args(self, callFrame, callNode, prefix, context, args):
@@ -256,6 +256,7 @@ class IceCreamDebugger:
         pairs = list(zip(sanitizedArgStrs, args))
         #eprint("pairs:", pairs)
         out = self._construct_argument_output(prefix, context, pairs)
+        print(out)
         return out
 
     def _construct_argument_output(self, prefix, context, pairs):
