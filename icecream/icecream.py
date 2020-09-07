@@ -110,7 +110,7 @@ def supportTerminalColorsInWindows():
 def colorized_stderr_print(s):
     colored = colorize(s)
     with supportTerminalColorsInWindows():
-        print(colored)
+        #print(colored)
         eprint(colored)
 
 
@@ -207,6 +207,7 @@ class IceCreamDebugger:
         except NoSourceAvailableError as err:
             prefix = callOrValue(self.prefix)
             out = prefix + 'Error: ' + err.infoMessage
+        print(out)
         colorized_stderr_print(out)
 
         if not args:            # E.g. ic().
