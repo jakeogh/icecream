@@ -110,6 +110,7 @@ def supportTerminalColorsInWindows():
 def colorized_stderr_print(s):
     colored = colorize(s)
     with supportTerminalColorsInWindows():
+        print(colored)
         eprint(colored)
 
 
