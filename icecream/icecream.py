@@ -256,7 +256,7 @@ class IceCreamDebugger:
         pairs = list(zip(sanitizedArgStrs, args))
         #eprint("pairs:", pairs)
         out = self._construct_argument_output(prefix, context, pairs)
-        print(out)
+        #print(out)
         return out
 
     def _construct_argument_output(self, prefix, context, pairs):
@@ -271,6 +271,7 @@ class IceCreamDebugger:
 
         contextDelimiter = self.contextDelimiter if context else ''
         lines = [prefix + context + contextDelimiter + allArgsOnOneLine]
+        print(lines)
 
         return '\n'.join(lines)
 
