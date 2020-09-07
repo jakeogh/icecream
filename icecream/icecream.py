@@ -207,7 +207,7 @@ class IceCreamDebugger:
         except NoSourceAvailableError as err:
             prefix = callOrValue(self.prefix)
             out = prefix + 'Error: ' + err.infoMessage
-        print(out)
+        #print(out)
         colorized_stderr_print(out)
 
         if not args:            # E.g. ic().
@@ -244,7 +244,7 @@ class IceCreamDebugger:
                 context = ''
             out = self._format_args(callFrame, callNode, prefix, context, args)
 
-        #eprint(out)
+        eprint(out)
         return out
 
     def _format_args(self, callFrame, callNode, prefix, context, args):
