@@ -186,7 +186,7 @@ def format_pair(prefix, arg, value):
 
 def argumentToString(obj):
     s = DEFAULT_ARG_TO_STRING_FUNCTION(obj)
-    s = s.replace('\\n', '\n')  # Preserve string newlines in output.
+    #s = s.replace('\\n', '\n')  # Preserve string newlines in output.
     return s
 
 
