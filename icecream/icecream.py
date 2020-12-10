@@ -50,7 +50,6 @@ from pygments.lexers import Python3Lexer
 
 from .coloring import SolarizedDark
 
-
 _absent = object()
 
 
@@ -66,21 +65,24 @@ def format_time():
     return ' at %s' % formatted
 
 
-def get_context(callFrame, callNode):
-    lineNumber = callNode.lineno
-    frameInfo = inspect.getframeinfo(callFrame)
+def get_context(call_frame, call_node):
+    lineNumber = call_node.lineno
+    frameInfo = inspect.getframeinfo(call_frame)
     parentFunction = frameInfo.function
     filename = basename(frameInfo.filename)
-    return filename, lineNumber, parentFunction
+    #caller = sys._getframe(1).f_code.co_name
+    caller = call_frame.f_code.co_name
+    return caller, filename, lineNumber, parentFunction
 
 
-def format_context(callFrame, callNode):
-    filename, lineNumber, parentFunction = get_context(callFrame, callNode)
+def format_context(call_frame, call_node):
+    caller, filename, lineNumber, parentFunction = get_context(call_frame, call_node)
 
     if parentFunction != '<module>':
         parentFunction = '%s()' % parentFunction
 
-    context = '%s:%s in %s' % (filename, lineNumber, parentFunction)
+    context = '%s %s:%s in %s' % (caller, filename, lineNumber, parentFunction)
+    eprint("context:", context)
     return context
 
 
@@ -140,7 +142,7 @@ class NoSourceAvailableError(OSError):
         'change during execution?')
 
 
-def callOrValue(obj):
+def call_or_value(obj):
     return obj() if callable(obj) else obj
 
 
@@ -184,7 +186,7 @@ def format_pair(prefix, arg, value):
     return '\n'.join(lines)
 
 
-def argumentToString(obj):
+def argument_to_string(obj):
     s = DEFAULT_ARG_TO_STRING_FUNCTION(obj)
     #s = s.replace('\\n', '\n')  # Preserve string newlines in output.
     return s
@@ -195,17 +197,17 @@ class IceCreamDebugger:
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
 
     def __init__(self, prefix=DEFAULT_PREFIX,
-                 argToStringFunction=argumentToString, includeContext=True):
+                 arg_to_string_function=argument_to_string, includeContext=True):
         self.prefix = prefix
         self.includeContext = includeContext
-        self.argToStringFunction = argToStringFunction
+        self.arg_to_string_function = arg_to_string_function
 
     def __call__(self, *args):
-        callFrame = inspect.currentframe().f_back
+        call_frame = inspect.currentframe().f_back
         try:
-            out = self._format(callFrame, *args)
+            out = self._format(call_frame, *args)
         except NoSourceAvailableError as err:
-            prefix = callOrValue(self.prefix)
+            prefix = call_or_value(self.prefix)
             out = prefix + 'Error: ' + err.infoMessage
         #print(out)
         colorized_stderr_print(out)
@@ -220,21 +222,21 @@ class IceCreamDebugger:
         return passthrough
 
     def format(self, *args):
-        callFrame = inspect.currentframe().f_back
-        out = self._format(callFrame, *args)
+        call_frame = inspect.currentframe().f_back
+        out = self._format(call_frame, *args)
         #eprint(out)
         return out
 
-    def _format(self, callFrame, *args):
+    def _format(self, call_frame, *args):
         #eprint("args:", args)
-        prefix = callOrValue(self.prefix)
+        prefix = call_or_value(self.prefix)
         #eprint("prefix:", prefix)  # ic|
 
-        callNode = Source.executing(callFrame).node
-        if callNode is None:
+        call_node = Source.executing(call_frame).node
+        if call_node is None:
             raise NoSourceAvailableError()
 
-        context = format_context(callFrame, callNode)
+        context = format_context(call_frame, call_node)
         #eprint("context:", context)  # file.py:13 in <module>
         if not args:
             time = format_time()
@@ -242,18 +244,18 @@ class IceCreamDebugger:
         else:
             if not self.includeContext:
                 context = ''
-            out = self._format_args(callFrame, callNode, prefix, context, args)
+            out = self._format_args(call_frame, call_node, prefix, context, args)
 
         #eprint(out)
         return out
 
-    def _format_args(self, callFrame, callNode, prefix, context, args):
-        source = Source.for_frame(callFrame)
-        sanitizedArgStrs = [
+    def _format_args(self, call_frame, call_node, prefix, context, args):
+        source = Source.for_frame(call_frame)
+        sanitized_arg_strings = [
             source.get_text_with_indentation(arg)
-            for arg in callNode.args]
+            for arg in call_node.args]
 
-        pairs = list(zip(sanitizedArgStrs, args))
+        pairs = list(zip(sanitized_arg_strings, args))
         #eprint("pairs:", pairs)
         out = self._construct_argument_output(prefix, context, pairs)
         #print(out)
@@ -263,7 +265,7 @@ class IceCreamDebugger:
         def argPrefix(arg):
             return '%s: ' % arg
 
-        pairs = [(arg, self.argToStringFunction(val)) for arg, val in pairs]
+        pairs = [(arg, self.arg_to_string_function(val)) for arg, val in pairs]
         #eprint("pairs:", pairs)
 
         allArgsOnOneLine = self._pairDelimiter.join(
@@ -278,13 +280,13 @@ class IceCreamDebugger:
 
     def configureOutput(self,
                         prefix=_absent,
-                        argToStringFunction=_absent,
+                        arg_to_string_function=_absent,
                         includeContext=_absent):
         if prefix is not _absent:
             self.prefix = prefix
 
-        if argToStringFunction is not _absent:
-            self.argToStringFunction = argToStringFunction
+        if arg_to_string_function is not _absent:
+            self.arg_to_string_function = arg_to_string_function
 
         if includeContext is not _absent:
             self.includeContext = includeContext
