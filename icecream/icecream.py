@@ -93,7 +93,7 @@ def format_context(call_frame, call_node):
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
-    context = '%s:%s → %s:%s ＠ %s' % (caller, caller_line_number, filename, line_number, parent_function)
+    context = '%s:%s → %s:%s＠%s' % (caller, caller_line_number, filename, line_number, parent_function)
     #eprint("context:", context)
     return context
 
@@ -129,7 +129,8 @@ def colorized_stderr_print(s):
 
 
 DEFAULT_PREFIX = 'ic| '
-DEFAULT_CONTEXT_DELIMITER = '- '
+#DEFAULT_CONTEXT_DELIMITER = '- '
+DEFAULT_CONTEXT_DELIMITER = 'ᛝ '
 #DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
 DEFAULT_ARG_TO_STRING_FUNCTION = repr
 
