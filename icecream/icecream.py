@@ -81,8 +81,8 @@ def get_context(call_frame, call_node):
         #eprint("frame:", frame)
         outer_frame_filename = basename(outer_frame.filename)
         eprint(outer_frame_filename, outer_frame.lineno, outer_frame.function)
-        #if outer_frame_filename != file_name:
-        #    break
+        if outer_frame_filename != file_name:
+            break
     return outer_frame_filename, file_name, line_number, parent_function
 
 
@@ -92,7 +92,7 @@ def format_context(call_frame, call_node):
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
-    context = '%s %s:%s in %s' % (caller, filename, line_number, parent_function)
+    context = '%s → %s:%s in %s' % (caller, filename, line_number, parent_function)
     eprint("context:", context)
     return context
 
