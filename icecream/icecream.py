@@ -66,24 +66,26 @@ def format_time():
 
 
 def get_context(call_frame, call_node):
-    lineNumber = call_node.lineno
-    frameInfo = inspect.getframeinfo(call_frame)
-    parentFunction = frameInfo.function
-    filename = basename(frameInfo.filename)
+    line_number = call_node.lineno
+    frame_info = inspect.getframeinfo(call_frame)
+    parent_function = frame_info.function
+    filename = basename(frame_info.filename)
     #caller = sys._getframe(1).f_code.co_name
     caller = call_frame.f_code.co_name
     eprint(call_frame)
     eprint(dir(call_frame))
-    return caller, filename, lineNumber, parentFunction
+    outer = inspect.getouterframes(call_frame)
+    eprint("outer:", outer)
+    return caller, filename, line_number, parent_function
 
 
 def format_context(call_frame, call_node):
-    caller, filename, lineNumber, parentFunction = get_context(call_frame, call_node)
+    caller, filename, line_number, parent_function = get_context(call_frame, call_node)
 
-    if parentFunction != '<module>':
-        parentFunction = '%s()' % parentFunction
+    if parent_function != '<module>':
+        parent_function = '%s()' % parent_function
 
-    context = '%s %s:%s in %s' % (caller, filename, lineNumber, parentFunction)
+    context = '%s %s:%s in %s' % (caller, filename, line_number, parent_function)
     eprint("context:", context)
     return context
 
