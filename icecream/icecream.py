@@ -69,7 +69,8 @@ def get_context(call_frame, call_node):
     line_number = call_node.lineno
     frame_info = inspect.getframeinfo(call_frame)
     parent_function = frame_info.function
-    filename = basename(frame_info.filename)
+    file_name = basename(frame_info.filename)
+    eprint("file_name:", file_name)
     #caller = sys._getframe(1).f_code.co_name
     #caller = call_frame.f_code.co_name
     #eprint(call_frame)
@@ -80,10 +81,9 @@ def get_context(call_frame, call_node):
         #eprint("frame:", frame)
         outer_frame_filename = outer_frame.filename
         eprint(outer_frame_filename, outer_frame.lineno, outer_frame.function)
-        if outer_frame_filename != filename:
-            break
-        #eprint("frame.f_code.co_name:", frame.f_code.co_name)
-    return outer_frame_filename, filename, line_number, parent_function
+        #if outer_frame_filename != file_name:
+        #    break
+    return outer_frame_filename, file_name, line_number, parent_function
 
 
 def format_context(call_frame, call_node):
