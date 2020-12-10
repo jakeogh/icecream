@@ -88,12 +88,15 @@ def get_context(call_frame, call_node):
 
 
 def format_context(call_frame, call_node):
-    caller, caller_line_number, filename, line_number, parent_function = get_context(call_frame, call_node)
+    caller_file_name, caller_line_number, file_name, line_number, parent_function = get_context(call_frame, call_node)
 
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
-    context = '%s:%s→ %s:%s＠ %s' % (caller, caller_line_number, filename, line_number, parent_function)
+    if caller_file_name != file_name:
+        context = '%s:%s→ %s:%s＠ %s' % (caller_file_name, caller_line_number, file_name, line_number, parent_function)
+    else:
+        context = '%s:%s＠ %s' % (file_name, line_number, parent_function)
     #eprint("context:", context)
     return context
 
