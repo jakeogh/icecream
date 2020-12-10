@@ -72,6 +72,8 @@ def get_context(call_frame, call_node):
     filename = basename(frameInfo.filename)
     #caller = sys._getframe(1).f_code.co_name
     caller = call_frame.f_code.co_name
+    eprint(call_frame)
+    eprint(dir(call_frame))
     return caller, filename, lineNumber, parentFunction
 
 
