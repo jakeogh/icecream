@@ -77,7 +77,8 @@ def get_context(call_frame, call_node):
     outer = inspect.getouterframes(call_frame)
     eprint("outer:", outer)
     for frame in outer:
-        eprint("frame.f_code.co_name:", frame.f_code.co_name)
+        eprint("frame:", frame)
+        #eprint("frame.f_code.co_name:", frame.f_code.co_name)
     return caller, filename, line_number, parent_function
 
 
