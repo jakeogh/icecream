@@ -70,7 +70,7 @@ def get_context(call_frame, call_node):
     frame_info = inspect.getframeinfo(call_frame)
     parent_function = frame_info.function
     file_name = basename(frame_info.filename)
-    eprint("file_name:", file_name)
+    #eprint("file_name:", file_name)
     #caller = sys._getframe(1).f_code.co_name
     #caller = call_frame.f_code.co_name
     #eprint(call_frame)
@@ -79,20 +79,21 @@ def get_context(call_frame, call_node):
     #eprint("outer:", outer)
     for outer_frame in outer_frames:
         #eprint("frame:", frame)
-        outer_frame_filename = basename(outer_frame.filename)
-        eprint(outer_frame_filename, outer_frame.lineno, outer_frame.function)
-        if outer_frame_filename != file_name:
+        external_frame_filename = basename(outer_frame.filename)
+        external_frame_line_number = outer_frame.lineno
+        #eprint(outer_frame_filename, outer_frame.lineno, outer_frame.function)
+        if external_frame_filename != file_name:
             break
-    return outer_frame_filename, file_name, line_number, parent_function
+    return external_frame_filename, external_frame_line_number, file_name, line_number, parent_function
 
 
 def format_context(call_frame, call_node):
-    caller, filename, line_number, parent_function = get_context(call_frame, call_node)
+    caller, caller_line_number, filename, line_number, parent_function = get_context(call_frame, call_node)
 
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
-    context = '%s → %s:%s in %s' % (caller, filename, line_number, parent_function)
+    context = '%s:%s → %s:%s in %s' % (caller, caller_line_number, filename, line_number, parent_function)
     eprint("context:", context)
     return context
 
