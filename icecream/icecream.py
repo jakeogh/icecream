@@ -79,7 +79,7 @@ def get_context(call_frame, call_node):
     #eprint("outer:", outer)
     for outer_frame in outer_frames:
         #eprint("frame:", frame)
-        outer_frame_filename = outer_frame.filename
+        outer_frame_filename = basename(outer_frame.filename)
         eprint(outer_frame_filename, outer_frame.lineno, outer_frame.function)
         #if outer_frame_filename != file_name:
         #    break
