@@ -93,8 +93,8 @@ def format_context(call_frame, call_node):
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
-    context = '%s:%s → %s:%s in %s' % (caller, caller_line_number, filename, line_number, parent_function)
-    eprint("context:", context)
+    context = '%s:%s → %s:%s ＠ %s' % (caller, caller_line_number, filename, line_number, parent_function)
+    #eprint("context:", context)
     return context
 
 
