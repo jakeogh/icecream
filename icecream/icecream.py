@@ -81,7 +81,7 @@ def get_context(call_frame, call_node):
         #eprint("frame:", frame)
         external_frame_file_name = basename(outer_frame.filename)
         external_frame_line_number = outer_frame.lineno
-        eprint(external_frame_file_name, outer_frame.lineno, outer_frame.function)
+        eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
         if external_frame_file_name != file_name:
             break
     return external_frame_file_name, external_frame_line_number, file_name, line_number, parent_function
