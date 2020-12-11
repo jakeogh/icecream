@@ -147,8 +147,8 @@ def colorized_stderr_print(s):
 DEFAULT_PREFIX = 'ic| '
 #DEFAULT_CONTEXT_DELIMITER = '- '
 DEFAULT_CONTEXT_DELIMITER = '→ '
-#DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
-DEFAULT_ARG_TO_STRING_FUNCTION = repr
+##DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
+#DEFAULT_ARG_TO_STRING_FUNCTION = repr
 
 
 class NoSourceAvailableError(OSError):
@@ -215,10 +215,9 @@ def format_pair(prefix, arg, value):
     return '\n'.join(lines)
 
 
-def argument_to_string(obj):
-    s = DEFAULT_ARG_TO_STRING_FUNCTION(obj)
-    #s = s.replace('\\n', '\n')  # Preserve string newlines in output.
-    return s
+#def argument_to_string(obj):
+#    s = repr(obj)
+#    return s
 
 
 class IceCreamDebugger:
@@ -226,7 +225,7 @@ class IceCreamDebugger:
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
 
     def __init__(self, prefix=DEFAULT_PREFIX,
-                 arg_to_string_function=argument_to_string, includeContext=True):
+                 arg_to_string_function=repr, includeContext=True):
         self.prefix = prefix
         self.includeContext = includeContext
         self.arg_to_string_function = arg_to_string_function
