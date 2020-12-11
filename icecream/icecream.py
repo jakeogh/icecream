@@ -78,21 +78,26 @@ def get_context(call_frame, call_node):
     #eprint(dir(call_frame))
     outer_frames = inspect.getouterframes(call_frame)
     #eprint("outer:", outer)
-    for outer_frame in outer_frames[::-1]:
-        #eprint("frame:", frame)
-        external_frame_file = outer_frame.filename
-        external_frame_file_name = basename(external_frame_file)
-        external_frame_line_number = outer_frame.lineno
-        eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
-    for outer_frame in outer_frames:
-        #eprint("frame:", frame)
-        external_frame_file = outer_frame.filename
-        external_frame_file_name = basename(external_frame_file)
-        external_frame_line_number = outer_frame.lineno
-        eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
-        if external_frame_file_name != call_frame_file_name:
-            break
-    return external_frame_file_name, external_frame_line_number, call_frame_file_name, line_number, parent_function
+    first_frame = outer_frames[::-1][0]
+    first_frame_file = first_frame.filename
+    first_frame_file_name = basename(first_frame_file)
+    first_frame_line_number = first_frame.lineno
+    #for outer_frame in outer_frames[::-1]:
+    #    #eprint("frame:", frame)
+    #    external_frame_file = outer_frame.filename
+    #    external_frame_file_name = basename(external_frame_file)
+    #    external_frame_line_number = outer_frame.lineno
+    #    eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
+    #for outer_frame in outer_frames:
+    #    #eprint("frame:", frame)
+    #    external_frame_file = outer_frame.filename
+    #    external_frame_file_name = basename(external_frame_file)
+    #    external_frame_line_number = outer_frame.lineno
+    #    eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
+    #    if external_frame_file_name != call_frame_file_name:
+    #        break
+    #return external_frame_file_name, external_frame_line_number, call_frame_file_name, line_number, parent_function
+    return first_frame_file_name, first_frame_line_number, call_frame_file_name, line_number, parent_function
 
 
 def format_context(call_frame, call_node):
