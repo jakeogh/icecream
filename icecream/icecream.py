@@ -78,7 +78,7 @@ def get_context(call_frame, call_node):
     #eprint(dir(call_frame))
     outer_frames = inspect.getouterframes(call_frame)
     #eprint("outer:", outer)
-    for outer_frame in outer_frames:
+    for outer_frame in outer_frames[::-1]:
         #eprint("frame:", frame)
         external_frame_file = outer_frame.filename
         external_frame_file_name = basename(external_frame_file)
