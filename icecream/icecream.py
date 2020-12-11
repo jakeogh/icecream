@@ -79,12 +79,12 @@ def get_context(call_frame, call_node):
     #eprint("outer:", outer)
     for outer_frame in outer_frames:
         #eprint("frame:", frame)
-        external_frame_filename = basename(outer_frame.filename)
+        external_frame_file_name = basename(outer_frame.filename)
         external_frame_line_number = outer_frame.lineno
-        #eprint(outer_frame_filename, outer_frame.lineno, outer_frame.function)
-        if external_frame_filename != file_name:
+        eprint(external_frame_file_name, outer_frame.lineno, outer_frame.function)
+        if external_frame_file_name != file_name:
             break
-    return external_frame_filename, external_frame_line_number, file_name, line_number, parent_function
+    return external_frame_file_name, external_frame_line_number, file_name, line_number, parent_function
 
 
 def format_context(call_frame, call_node):
