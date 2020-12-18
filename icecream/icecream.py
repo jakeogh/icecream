@@ -34,6 +34,7 @@
 import inspect
 #import pprint
 import sys
+import time
 from contextlib import contextmanager
 from datetime import datetime
 from os.path import basename
@@ -106,10 +107,11 @@ def format_context(call_frame, call_node):
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
+    timestamp = round(time.time(), 3)
     if caller_file_name != file_name:
-        context = '%s:%s→ %s:%s＠ %s' % (caller_file_name, caller_line_number, file_name, line_number, parent_function)
+        context = '%s %s:%s→ %s:%s＠ %s' % (timestamp, caller_file_name, caller_line_number, file_name, line_number, parent_function)
     else:
-        context = '%s:%s＠ %s' % (file_name, line_number, parent_function)
+        context = '%s %s:%s＠ %s' % (timestamp, file_name, line_number, parent_function)
     #eprint("context:", context)
     return context
 
