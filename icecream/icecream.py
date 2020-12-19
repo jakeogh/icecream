@@ -107,7 +107,7 @@ def format_context(call_frame, call_node):
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
-    timestamp = round(time.time(), 3)
+    timestamp = str("%.3f" % time.time())
     if caller_file_name != file_name:
         context = '%s %s:%s→ %s:%s＠ %s' % (timestamp, caller_file_name, caller_line_number, file_name, line_number, parent_function)
     else:
