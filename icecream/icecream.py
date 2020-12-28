@@ -68,7 +68,12 @@ def format_time():
 
 def get_context(call_frame, call_node):
     line_number = call_node.lineno
-    frame_info = inspect.getframeinfo(call_frame)
+    try:
+        frame_info = inspect.getframeinfo(call_frame)
+    except IndexError as e:
+        eprint("e:", e)
+        eprint("call_frame:", call_frame)
+        raise e
     parent_function = frame_info.function
     call_frame_file = frame_info.filename
     call_frame_file_name = basename(call_frame_file)
