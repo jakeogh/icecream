@@ -83,7 +83,7 @@ def get_context(call_frame, call_node):
     #eprint(call_frame)
     #eprint(dir(call_frame))
     outer_frames = inspect.getouterframes(call_frame)
-    #eprint("outer:", outer)
+    eprint("outer_frames:", outer_frames)
     first_frame = outer_frames[::-1][0]
     print("type(first_frame)", type(first_frame))
     first_frame_file = first_frame.filename
