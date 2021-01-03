@@ -85,33 +85,26 @@ def get_context(call_frame, call_node):
     outer_frames = inspect.getouterframes(call_frame)
     #eprint("outer_frames:", outer_frames)
     first_frame = outer_frames[::-1][0]
-    print("type(first_frame)", type(first_frame))
+    #print("type(first_frame)", type(first_frame))
     first_frame_file = first_frame.filename
     first_frame_file_name = basename(first_frame_file)
     first_frame_line_number = first_frame.lineno
 
     second_frame = outer_frames[::-1][1]  # named wrong, [1] is the frame before parent_function
-    print("type(second_frame)", type(second_frame))
+    #print("type(second_frame)", type(second_frame))
     second_frame_file = second_frame.filename
     second_frame_file_name = basename(second_frame_file)
     second_frame_file_dir = basename(dirname(second_frame_file))
     second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
     second_frame_line_number = second_frame.lineno
-    #for outer_frame in outer_frames[::-1]:
-    #    #eprint("frame:", frame)
+    #for index, outer_frame in enumerate(outer_frames):
+    #    #eprint("outer_frame:", outer_frame)
     #    external_frame_file = outer_frame.filename
     #    external_frame_file_name = basename(external_frame_file)
     #    external_frame_line_number = outer_frame.lineno
-    #    eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
-    for index, outer_frame in enumerate(outer_frames):
-        #eprint("frame:", frame)
-        external_frame_file = outer_frame.filename
-        external_frame_file_name = basename(external_frame_file)
-        external_frame_line_number = outer_frame.lineno
-        eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
-        #if external_frame_file_name != call_frame_file_name:
-        #    break
-    #return external_frame_file_name, external_frame_line_number, call_frame_file_name, line_number, parent_function
+    #    eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
+    #    #if external_frame_file_name != call_frame_file_name:
+    #    #    break
     return \
         first_frame_file_name, first_frame_line_number, second_frame_file_name_and_dir, second_frame_line_number, call_frame_file_name, line_number, parent_function
 
