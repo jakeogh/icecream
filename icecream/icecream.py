@@ -85,11 +85,13 @@ def get_context(call_frame, call_node):
     outer_frames = inspect.getouterframes(call_frame)
     #eprint("outer:", outer)
     first_frame = outer_frames[::-1][0]
+    print("type(first_frame)", type(first_frame))
     first_frame_file = first_frame.filename
     first_frame_file_name = basename(first_frame_file)
     first_frame_line_number = first_frame.lineno
 
     second_frame = outer_frames[1][0]  # named wrong, [1] is the frame before parent_function
+    print("type(second_frame)", type(second_frame))
     second_frame_file = second_frame.filename
     second_frame_file_name = basename(second_frame_file)
     second_frame_line_number = second_frame.lineno
