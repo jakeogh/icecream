@@ -99,14 +99,14 @@ def get_context(call_frame, call_node):
     #    external_frame_file_name = basename(external_frame_file)
     #    external_frame_line_number = outer_frame.lineno
     #    eprint(outer_frame.filename, external_frame_file_name, outer_frame.lineno, outer_frame.function)
-    for outer_frame in outer_frames:
+    for index, outer_frame in enumerate(outer_frames):
         #eprint("frame:", frame)
         external_frame_file = outer_frame.filename
         external_frame_file_name = basename(external_frame_file)
         external_frame_line_number = outer_frame.lineno
-        eprint(external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
-        if external_frame_file_name != call_frame_file_name:
-            break
+        eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
+        #if external_frame_file_name != call_frame_file_name:
+        #    break
     #return external_frame_file_name, external_frame_line_number, call_frame_file_name, line_number, parent_function
     return \
         first_frame_file_name, first_frame_line_number, second_frame_file_name, second_frame_line_number, call_frame_file_name, line_number, parent_function
