@@ -89,7 +89,7 @@ def get_context(call_frame, call_node):
     first_frame_file_name = basename(first_frame_file)
     first_frame_line_number = first_frame.lineno
 
-    second_frame = outer_frames[::-2][0]
+    second_frame = outer_frames[1][0]  # named wrong, [1] is the frame before parent_function
     second_frame_file = second_frame.filename
     second_frame_file_name = basename(second_frame_file)
     second_frame_line_number = second_frame.lineno
