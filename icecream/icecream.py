@@ -94,7 +94,7 @@ def get_context(call_frame, call_node):
     print("type(second_frame)", type(second_frame))
     second_frame_file = second_frame.filename
     second_frame_file_name = basename(second_frame_file)
-    second_frame_file_dir = dirname(second_frame_file)
+    second_frame_file_dir = basename(dirname(second_frame_file))
     second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
     second_frame_line_number = second_frame.lineno
     #for outer_frame in outer_frames[::-1]:
