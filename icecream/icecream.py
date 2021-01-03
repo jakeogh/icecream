@@ -37,7 +37,7 @@ import sys
 import time
 from contextlib import contextmanager
 from datetime import datetime
-from os.path import basename
+from os.path import basename, dirname
 from textwrap import dedent
 
 import colorama
@@ -94,6 +94,8 @@ def get_context(call_frame, call_node):
     print("type(second_frame)", type(second_frame))
     second_frame_file = second_frame.filename
     second_frame_file_name = basename(second_frame_file)
+    second_frame_file_dir = dirname(second_frame_file)
+    second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
     second_frame_line_number = second_frame.lineno
     #for outer_frame in outer_frames[::-1]:
     #    #eprint("frame:", frame)
@@ -111,7 +113,7 @@ def get_context(call_frame, call_node):
         #    break
     #return external_frame_file_name, external_frame_line_number, call_frame_file_name, line_number, parent_function
     return \
-        first_frame_file_name, first_frame_line_number, second_frame_file_name, second_frame_line_number, call_frame_file_name, line_number, parent_function
+        first_frame_file_name, first_frame_line_number, second_frame_file_name_and_dir, second_frame_line_number, call_frame_file_name, line_number, parent_function
 
 
 def format_context(call_frame, call_node):
