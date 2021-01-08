@@ -32,6 +32,7 @@
 
 #import ast
 import inspect
+import os
 #import pprint
 import sys
 import time
@@ -117,9 +118,9 @@ def format_context(call_frame, call_node):
 
     timestamp = str("%.3f" % time.time())
     if caller_file_name != file_name:
-        context = '%s %s:%s→%s:%s→ %s:%s＠ %s' % (timestamp, caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function)
+        context = '%s %s %s:%s→%s:%s→ %s:%s＠ %s' % (timestamp, os.getpid(), caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function)
     else:
-        context = '%s %s:%s＠ %s' % (timestamp, file_name, line_number, parent_function)
+        context = '%s %s %s:%s＠ %s' % (timestamp, os.getpid(), file_name, line_number, parent_function)
     #eprint("context:", context)
     return context
 
