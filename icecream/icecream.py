@@ -77,12 +77,27 @@ def build_call_path(outer_frames):
         external_frame_file_dir = basename(dirname(external_frame_file))
         external_frame_file_name_and_dir = external_frame_file_dir + '/' + external_frame_file_name
         eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
-        call_list.append((external_frame_file_name_and_dir, external_frame_line_number, frame.function))
+        call_list.append({'path': external_frame_file_name_and_dir, 'line': external_frame_line_number, 'function': frame.function})
         #if external_frame_file_name != call_frame_file_name:
         #    break
-    for item in reversed(call_list):
-        eprint(item)
+    call_path = []
+    call_list_reversed = reversed(call_list)
+    previous_item = call_list_reversed[0]
+    call_path.append(previous_item['path'], previous_item['line'])
+    for index, item in enumerate(call_list_reversed):
+        eprint(index, item)
+        if index > 0:
+            if item['path'] != previous_item['path']:
+                call_path.append((item['path'], item['line']))
+            else:
+                call_path.append((item['line']))
+            previous_item = item
+
     #eprint(call_list)
+
+    eprint(" ")
+    for index, item in enumerate(call_path):
+        eprint(index, item)
 
 
 def get_context(call_frame, call_node):
