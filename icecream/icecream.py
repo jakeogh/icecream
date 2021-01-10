@@ -103,6 +103,8 @@ def build_call_path(outer_frames):
     for index, item in enumerate(call_path):
         eprint(index, item)
 
+    call_path_str = ''.join([item for item in call_path])
+    eprint(call_path_str)
 
 def get_context(call_frame, call_node):
     line_number = call_node.lineno
