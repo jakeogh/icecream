@@ -94,6 +94,9 @@ def build_call_path(outer_frames):
                 call_path.append("," + (str(item['line'])))
             previous_item = item
 
+    call_path.append(('＠'))
+    call_path.append((item['function'] + '()→'))
+
     #eprint(call_list)
 
     eprint(" ")
