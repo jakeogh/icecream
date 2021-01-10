@@ -70,10 +70,10 @@ def format_time():
 def build_call_path(outer_frames):
     for index, frame in enumerate(outer_frames):
         #eprint("outer_frame:", outer_frame)
-        external_frame_file = outer_frame.filename
+        external_frame_file = frame.filename
         external_frame_file_name = basename(external_frame_file)
-        external_frame_line_number = outer_frame.lineno
-        eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
+        external_frame_line_number = frame.lineno
+        eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, frame.function)
         #if external_frame_file_name != call_frame_file_name:
         #    break
 
