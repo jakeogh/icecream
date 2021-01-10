@@ -80,6 +80,7 @@ def build_call_path(outer_frames):
         call_list.append([external_frame_file_name_and_dir])
         #if external_frame_file_name != call_frame_file_name:
         #    break
+    eprint(call_list)
 
 
 def get_context(call_frame, call_node):
