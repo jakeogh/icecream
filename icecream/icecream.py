@@ -67,6 +67,17 @@ def format_time():
     return ' at %s' % formatted
 
 
+def build_call_path(outer_frames):
+    for index, frame in enumerate(outer_frames):
+        #eprint("outer_frame:", outer_frame)
+        external_frame_file = outer_frame.filename
+        external_frame_file_name = basename(external_frame_file)
+        external_frame_line_number = outer_frame.lineno
+        eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
+        #if external_frame_file_name != call_frame_file_name:
+        #    break
+
+
 def get_context(call_frame, call_node):
     line_number = call_node.lineno
     try:
@@ -98,14 +109,15 @@ def get_context(call_frame, call_node):
     second_frame_file_dir = basename(dirname(second_frame_file))
     second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
     second_frame_line_number = second_frame.lineno
-    for index, outer_frame in enumerate(outer_frames):
-        #eprint("outer_frame:", outer_frame)
-        external_frame_file = outer_frame.filename
-        external_frame_file_name = basename(external_frame_file)
-        external_frame_line_number = outer_frame.lineno
-        eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
-        #if external_frame_file_name != call_frame_file_name:
-        #    break
+    build_call_path(outer_frames)
+    #for index, outer_frame in enumerate(outer_frames):
+    #    #eprint("outer_frame:", outer_frame)
+    #    external_frame_file = outer_frame.filename
+    #    external_frame_file_name = basename(external_frame_file)
+    #    external_frame_line_number = outer_frame.lineno
+    #    eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
+    #    #if external_frame_file_name != call_frame_file_name:
+    #    #    break
     return \
         first_frame_file_name, first_frame_line_number, second_frame_file_name_and_dir, second_frame_line_number, call_frame_file_name, line_number, parent_function
 
