@@ -88,6 +88,7 @@ def build_call_path(outer_frames):
         eprint(index, item)
         if index > 0:
             if item['path'] != previous_item['path']:
+                call_path.append(('→'))
                 call_path.append((item['path'] + ':' + str(item['line'])))
             else:
                 call_path.append("," + (str(item['line'])))
