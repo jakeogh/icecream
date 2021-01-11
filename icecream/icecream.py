@@ -77,6 +77,7 @@ def reduce_path(path):
 
     if dirname(path) == python_version_folder:
         return "{}.{}/".format(python_version.major, python_version.minor) + path_basename
+    path = path.replace('attrs generated init', 'attrs')
     return path
 
 
