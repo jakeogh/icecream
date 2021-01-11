@@ -77,17 +77,17 @@ def reduce_path(path):
 
 def build_call_path(outer_frames):
     call_list = []
-    #for index, frame in enumerate(outer_frames):
-    #    #eprint("outer_frame:", outer_frame)
-    #    external_frame_file = frame.filename
-    #    external_frame_file_name = basename(external_frame_file)
-    #    external_frame_line_number = frame.lineno
-    #    external_frame_file_dir = basename(dirname(external_frame_file))
-    #    external_frame_file_name_and_dir = external_frame_file_dir + '/' + external_frame_file_name
-    #    eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
-    #    call_list.append({'path': external_frame_file_name_and_dir, 'line': external_frame_line_number, 'function': frame.function})
-    #    #if external_frame_file_name != call_frame_file_name:
-    #    #    break
+    for index, frame in enumerate(outer_frames):
+        #eprint("outer_frame:", outer_frame)
+        external_frame_file = frame.filename
+        external_frame_file_name = basename(external_frame_file)
+        external_frame_line_number = frame.lineno
+        external_frame_file_dir = basename(dirname(external_frame_file))
+        external_frame_file_name_and_dir = external_frame_file_dir + '/' + external_frame_file_name
+        eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
+        call_list.append({'path': external_frame_file_name_and_dir, 'line': external_frame_line_number, 'function': frame.function})
+        #if external_frame_file_name != call_frame_file_name:
+        #    break
     call_path = []
     call_list_reversed = list(reversed(call_list))
     previous_item = call_list_reversed[0]
