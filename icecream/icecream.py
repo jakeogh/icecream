@@ -115,7 +115,7 @@ def build_call_path(outer_frames):
     call_path.append(('＠ '))
     function = item['function']
     if function != '<module>':
-        function = '%s():%s' % function, str(item['line'])
+        function = '%s():%s' % (function, str(item['line']))
     call_path.append((function + '→ '))
 
     #eprint(call_list)
