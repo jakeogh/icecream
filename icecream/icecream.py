@@ -67,6 +67,14 @@ def format_time():
     return ' at %s' % formatted
 
 
+def reduce_path(path):
+    path_basename = basename(path)
+    path_dirname = dirname(path)
+    if path_basename.split('.')[0] == path_dirname:
+        return "''/" + path_basename
+    return path
+
+
 def build_call_path(outer_frames):
     call_list = []
     for index, frame in enumerate(outer_frames):
@@ -89,6 +97,7 @@ def build_call_path(outer_frames):
         if index > 0:
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
+                path = reduce_path(item['path'])
                 call_path.append((item['path'] + ':' + str(item['line'])))
             else:
                 call_path.append("," + (str(item['line'])))
