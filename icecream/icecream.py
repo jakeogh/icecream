@@ -114,7 +114,7 @@ def build_call_path(outer_frames):
     #    eprint(index, item)
 
     call_path_str = ''.join([item for item in call_path])
-    eprint(call_path_str)
+    #eprint(call_path_str)
     return call_path_str
 
 def get_context(call_frame, call_node):
