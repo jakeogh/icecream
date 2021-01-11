@@ -100,6 +100,7 @@ def build_call_path(outer_frames):
     call_list_reversed = list(reversed(call_list))
     previous_item = call_list_reversed[0]
     call_path.append((basename(previous_item['path']) + ':' + str(previous_item['line'])))
+    call_list_length = len(call_list_reversed)
     item = None
     for index, item in enumerate(call_list_reversed):
     #    eprint(index, item)
@@ -107,9 +108,13 @@ def build_call_path(outer_frames):
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
                 path = reduce_path(item['path'])
-                call_path.append((path + ':' + str(item['line'])))
+                if index + 1 == call_list_length:
+                    call_path.append((path))
+                else:
+                    call_path.append((path + ':' + str(item['line'])))
             else:
-                call_path.append("," + (str(item['line'])))
+                if index + 1 < call_list_length:
+                    call_path.append("," + (str(item['line'])))
             previous_item = item
 
     call_path.append(('＠ '))
