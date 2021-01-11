@@ -113,7 +113,10 @@ def build_call_path(outer_frames):
             previous_item = item
 
     call_path.append(('＠ '))
-    call_path.append((item['function'] + '()→ '))
+    function = item['function']
+    if function != '<module>':
+        function = '%s():%s' % function, str(item['line'])
+    call_path.append((function + '→ '))
 
     #eprint(call_list)
 
@@ -175,8 +178,8 @@ def format_context(call_frame, call_node):
     #call_path_string, parent_function = get_context(call_frame, call_node)
     call_path_string = get_context(call_frame, call_node)
 
-    if parent_function != '<module>':
-        parent_function = '%s()' % parent_function
+    #if parent_function != '<module>':
+    #    parent_function = '%s()' % parent_function
 
     timestamp = str("%.3f" % time.time())
     #if caller_file_name != file_name:
