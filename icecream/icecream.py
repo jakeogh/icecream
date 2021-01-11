@@ -77,28 +77,29 @@ def reduce_path(path):
 
 def build_call_path(outer_frames):
     call_list = []
-    for index, frame in enumerate(outer_frames):
-        #eprint("outer_frame:", outer_frame)
-        external_frame_file = frame.filename
-        external_frame_file_name = basename(external_frame_file)
-        external_frame_line_number = frame.lineno
-        external_frame_file_dir = basename(dirname(external_frame_file))
-        external_frame_file_name_and_dir = external_frame_file_dir + '/' + external_frame_file_name
-        eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
-        call_list.append({'path': external_frame_file_name_and_dir, 'line': external_frame_line_number, 'function': frame.function})
-        #if external_frame_file_name != call_frame_file_name:
-        #    break
+    #for index, frame in enumerate(outer_frames):
+    #    #eprint("outer_frame:", outer_frame)
+    #    external_frame_file = frame.filename
+    #    external_frame_file_name = basename(external_frame_file)
+    #    external_frame_line_number = frame.lineno
+    #    external_frame_file_dir = basename(dirname(external_frame_file))
+    #    external_frame_file_name_and_dir = external_frame_file_dir + '/' + external_frame_file_name
+    #    eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
+    #    call_list.append({'path': external_frame_file_name_and_dir, 'line': external_frame_line_number, 'function': frame.function})
+    #    #if external_frame_file_name != call_frame_file_name:
+    #    #    break
     call_path = []
     call_list_reversed = list(reversed(call_list))
     previous_item = call_list_reversed[0]
     call_path.append((basename(previous_item['path']) + ':' + str(previous_item['line'])))
+    item = None
     for index, item in enumerate(call_list_reversed):
-        eprint(index, item)
+    #    eprint(index, item)
         if index > 0:
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
                 path = reduce_path(item['path'])
-                call_path.append((item['path'] + ':' + str(item['line'])))
+                call_path.append((path + ':' + str(item['line'])))
             else:
                 call_path.append("," + (str(item['line'])))
             previous_item = item
@@ -108,12 +109,13 @@ def build_call_path(outer_frames):
 
     #eprint(call_list)
 
-    eprint(" ")
-    for index, item in enumerate(call_path):
-        eprint(index, item)
+    #eprint(" ")
+    #for index, item in enumerate(call_path):
+    #    eprint(index, item)
 
     call_path_str = ''.join([item for item in call_path])
     eprint(call_path_str)
+    return call_path_str
 
 def get_context(call_frame, call_node):
     line_number = call_node.lineno
@@ -146,7 +148,7 @@ def get_context(call_frame, call_node):
     second_frame_file_dir = basename(dirname(second_frame_file))
     second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
     second_frame_line_number = second_frame.lineno
-    build_call_path(outer_frames)
+    call_path_string = build_call_path(outer_frames)
     #for index, outer_frame in enumerate(outer_frames):
     #    #eprint("outer_frame:", outer_frame)
     #    external_frame_file = outer_frame.filename
@@ -155,21 +157,27 @@ def get_context(call_frame, call_node):
     #    eprint(index, external_frame_file, external_frame_file_name, external_frame_line_number, outer_frame.function)
     #    #if external_frame_file_name != call_frame_file_name:
     #    #    break
-    return \
-        first_frame_file_name, first_frame_line_number, second_frame_file_name_and_dir, second_frame_line_number, call_frame_file_name, line_number, parent_function
+    #return \
+    #    first_frame_file_name, first_frame_line_number, second_frame_file_name_and_dir, second_frame_line_number, call_frame_file_name, line_number, parent_function
+    return call_path_string, parent_function
 
 
 def format_context(call_frame, call_node):
-    caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function = get_context(call_frame, call_node)
+    #caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function = get_context(call_frame, call_node)
+    call_path_string, parent_function = get_context(call_frame, call_node)
 
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
 
     timestamp = str("%.3f" % time.time())
-    if caller_file_name != file_name:
-        context = '%s %s %s:%s→%s:%s→ %s:%s＠ %s' % (timestamp, os.getpid(), caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function)
-    else:
-        context = '%s %s %s:%s＠ %s' % (timestamp, os.getpid(), file_name, line_number, parent_function)
+    #if caller_file_name != file_name:
+    #    context = '%s %s %s:%s→%s:%s→ %s:%s＠ %s' % (timestamp, os.getpid(), caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function)
+    #else:
+    #    context = '%s %s %s:%s＠ %s' % (timestamp, os.getpid(), file_name, line_number, parent_function)
+    #if caller_file_name != file_name:
+    context = '%s %s %s%s' % (timestamp, os.getpid(), call_path_string, parent_function)
+    #else:
+    #    context = '%s %s %s:%s＠ %s' % (timestamp, os.getpid(), file_name, line_number, parent_function)
     #eprint("context:", context)
     return context
 
