@@ -167,12 +167,13 @@ def get_context(call_frame, call_node):
     #    #    break
     #return \
     #    first_frame_file_name, first_frame_line_number, second_frame_file_name_and_dir, second_frame_line_number, call_frame_file_name, line_number, parent_function
-    return call_path_string, parent_function
+    return call_path_string
 
 
 def format_context(call_frame, call_node):
     #caller_file_name, caller_line_number, second_frame_file_name, second_frame_line_number, file_name, line_number, parent_function = get_context(call_frame, call_node)
-    call_path_string, parent_function = get_context(call_frame, call_node)
+    #call_path_string, parent_function = get_context(call_frame, call_node)
+    call_path_string = get_context(call_frame, call_node)
 
     if parent_function != '<module>':
         parent_function = '%s()' % parent_function
@@ -183,7 +184,7 @@ def format_context(call_frame, call_node):
     #else:
     #    context = '%s %s %s:%s＠ %s' % (timestamp, os.getpid(), file_name, line_number, parent_function)
     #if caller_file_name != file_name:
-    context = '%s %s %s%s' % (timestamp, os.getpid(), call_path_string, parent_function)
+    context = '%s %s %s' % (timestamp, os.getpid(), call_path_string)
     #else:
     #    context = '%s %s %s:%s＠ %s' % (timestamp, os.getpid(), file_name, line_number, parent_function)
     #eprint("context:", context)
