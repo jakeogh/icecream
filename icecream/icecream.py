@@ -68,10 +68,15 @@ def format_time():
 
 
 def reduce_path(path):
+    python_version = sys.version_info
+    python_version_folder = 'python' + str(python_version.major) + '.' + str(python_version.minor)
     path_basename = basename(path)
     path_dirname = dirname(path)
     if path_basename.split('.')[0] == path_dirname:
         return "''/" + path_basename
+
+    if dirname(path) == python_version_folder:
+        return "{}.{}/".format(python_version.major, python_version.minor) + path_basename
     return path
 
 
