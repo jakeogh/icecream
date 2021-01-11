@@ -84,7 +84,7 @@ def build_call_path(outer_frames):
         external_frame_line_number = frame.lineno
         external_frame_file_dir = basename(dirname(external_frame_file))
         external_frame_file_name_and_dir = external_frame_file_dir + '/' + external_frame_file_name
-        eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
+        #eprint(index, external_frame_file, external_frame_file_dir, external_frame_file_name, external_frame_file_name_and_dir, external_frame_line_number, frame.function)
         call_list.append({'path': external_frame_file_name_and_dir, 'line': external_frame_line_number, 'function': frame.function})
         #if external_frame_file_name != call_frame_file_name:
         #    break
