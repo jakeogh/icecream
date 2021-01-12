@@ -101,10 +101,18 @@ def build_call_path(outer_frames):
     previous_item = call_list_reversed[0]
     call_path.append((basename(previous_item['path']) + ':' + str(previous_item['line'])))
     call_list_length = len(call_list_reversed)
+    click_section = False
     item = None
     for index, item in enumerate(call_list_reversed):
     #    eprint(index, item)
         if index > 0:
+            if item['path'].startswith('click/'):
+                if not click_section:
+                    call_path.append(('<click>'))
+                click_section = True
+                continue
+            else:
+                click_section = False
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
                 path = reduce_path(item['path'])
