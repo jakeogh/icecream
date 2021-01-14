@@ -116,7 +116,7 @@ def build_call_path(outer_frames):
                 click_section = True
                 continue
             if item['path'].startswith('retry_on_exception/'):
-                if not click_section:
+                if not retry_on_exception_section:
                     call_path.append(('<RTE>'))
                 retry_on_exception_section = True
                 continue
@@ -139,7 +139,7 @@ def build_call_path(outer_frames):
     function = item['function']
     if function != '<module>':
         function = '%s():%s' % (function, str(item['line']))
-    call_path.append((function + ' '))
+    call_path.append((function))
 
     #eprint(call_list)
 
