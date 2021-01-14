@@ -67,7 +67,7 @@ def format_time():
     return ' at %s' % formatted
 
 
-def reduce_path(path):
+def reduce_path(path, *, root_program):
     python_version = sys.version_info
     python_version_folder = 'python' + str(python_version.major) + '.' + str(python_version.minor)
     path_basename = basename(path)
@@ -80,6 +80,8 @@ def reduce_path(path):
     path = path.replace('attrs generated init', 'attrs')
     if path.startswith('/'):
         path = path[1:]
+    if path.startswith(root_program + '/'):
+        path = path.replace(root_program, '')
     return path
 
 
@@ -99,7 +101,8 @@ def build_call_path(outer_frames):
     call_path = []
     call_list_reversed = list(reversed(call_list))
     previous_item = call_list_reversed[0]
-    call_path.append((basename(previous_item['path']) + ':' + str(previous_item['line'])))
+    root_program = basename(previous_item['path'])
+    call_path.append((root_program + ':' + str(previous_item['line'])))
     call_list_length = len(call_list_reversed)
     click_section = False
     item = None
@@ -115,7 +118,7 @@ def build_call_path(outer_frames):
                 click_section = False
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
-                path = reduce_path(item['path'])
+                path = reduce_path(item['path'], root_program=root_program)
                 if index + 1 == call_list_length:
                     call_path.append((path))
                 else:
