@@ -105,6 +105,7 @@ def build_call_path(outer_frames):
     call_path.append((root_program + ':' + str(previous_item['line'])))
     call_list_length = len(call_list_reversed)
     click_section = False
+    retry_on_exception_section = False
     item = None
     for index, item in enumerate(call_list_reversed):
     #    eprint(index, item)
@@ -114,8 +115,14 @@ def build_call_path(outer_frames):
                     call_path.append(('<click>'))
                 click_section = True
                 continue
+            if item['path'].startswith('retry_on_exception/'):
+                if not click_section:
+                    call_path.append(('<RTE>'))
+                retry_on_exception_section = True
+                continue
             else:
                 click_section = False
+                retry_on_exception_section = False
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
                 path = reduce_path(item['path'], root_program=root_program)
