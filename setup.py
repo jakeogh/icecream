@@ -13,10 +13,11 @@
 
 import os
 import sys
-from os.path import dirname, join as pjoin
-from setuptools import setup, find_packages, Command
-from setuptools.command.test import test as TestCommand
+from os.path import dirname
+from os.path import join as pjoin
 
+from setuptools import Command, find_packages, setup
+from setuptools.command.test import test as TestCommand
 
 meta = {}
 with open(pjoin('icecream', '__version__.py')) as f:
@@ -78,6 +79,7 @@ setup(
         'https://github.com/gruns/icecream.'),
     platforms=['any'],
     packages=find_packages(),
+    package_data={"icecream": ["py.typed"]},
     include_package_data=True,
     classifiers=[
         'License :: OSI Approved :: MIT License',
