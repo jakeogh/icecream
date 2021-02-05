@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from icecream import ic
+
 #
 # IceCream - A little library for sweet and creamy print debugging.
 #
@@ -10,7 +12,6 @@
 #
 # License: MIT
 #
-
 
 # pylint: disable=C0111     # docstrings are always outdated and wrong
 # pylint: disable=W0511     # todo is encouraged
@@ -152,16 +153,16 @@ def build_call_path(outer_frames):
     return call_path_str
 
 def get_context(call_frame, call_node):
-    line_number = call_node.lineno
+    #line_number = call_node.lineno
     try:
         frame_info = inspect.getframeinfo(call_frame)
     except IndexError as e:
         eprint("e:", e)
         eprint("call_frame:", call_frame)
         raise e
-    parent_function = frame_info.function
-    call_frame_file = frame_info.filename
-    call_frame_file_name = basename(call_frame_file)
+    #parent_function = frame_info.function
+    #call_frame_file = frame_info.filename
+    #call_frame_file_name = basename(call_frame_file)
     #eprint("file_name:", file_name)
     #caller = sys._getframe(1).f_code.co_name
     #caller = call_frame.f_code.co_name
@@ -169,19 +170,19 @@ def get_context(call_frame, call_node):
     #eprint(dir(call_frame))
     outer_frames = inspect.getouterframes(call_frame)
     #eprint("outer_frames:", outer_frames)
-    first_frame = outer_frames[::-1][0]
+    #first_frame = outer_frames[::-1][0]
     #print("type(first_frame)", type(first_frame))
-    first_frame_file = first_frame.filename
-    first_frame_file_name = basename(first_frame_file)
-    first_frame_line_number = first_frame.lineno
+    #first_frame_file = first_frame.filename
+    #first_frame_file_name = basename(first_frame_file)
+    #first_frame_line_number = first_frame.lineno
 
-    second_frame = outer_frames[::-1][1]  # named wrong, [1] is the frame before parent_function
-    #print("type(second_frame)", type(second_frame))
-    second_frame_file = second_frame.filename
-    second_frame_file_name = basename(second_frame_file)
-    second_frame_file_dir = basename(dirname(second_frame_file))
-    second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
-    second_frame_line_number = second_frame.lineno
+    #second_frame = outer_frames[::-1][1]  # named wrong, [1] is the frame before parent_function
+    ##print("type(second_frame)", type(second_frame))
+    #second_frame_file = second_frame.filename
+    #second_frame_file_name = basename(second_frame_file)
+    #second_frame_file_dir = basename(dirname(second_frame_file))
+    #second_frame_file_name_and_dir = second_frame_file_dir + '/' + second_frame_file_name
+    #second_frame_line_number = second_frame.lineno
     call_path_string = build_call_path(outer_frames)
     #for index, outer_frame in enumerate(outer_frames):
     #    #eprint("outer_frame:", outer_frame)
