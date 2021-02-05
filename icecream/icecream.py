@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from icecream import ic
-
 #
 # IceCream - A little library for sweet and creamy print debugging.
 #
@@ -34,7 +32,6 @@ from icecream import ic
 #import ast
 import inspect
 import os
-#import pprint
 import sys
 import time
 from contextlib import contextmanager
