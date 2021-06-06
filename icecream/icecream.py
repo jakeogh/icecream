@@ -36,7 +36,8 @@ import sys
 import time
 from contextlib import contextmanager
 from datetime import datetime
-from os.path import basename, dirname
+from os.path import basename
+from os.path import dirname
 from textwrap import dedent
 
 import colorama
@@ -422,3 +423,4 @@ class IceCreamDebugger:
 
 
 ic = IceCreamDebugger()
+icr = IceCreamDebugger(includeContext=False)
