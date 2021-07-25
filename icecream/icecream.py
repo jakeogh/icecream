@@ -46,8 +46,9 @@ from pygments import highlight
 # See https://gist.github.com/XVilka/8346728 for color support in various
 # terminals and thus whether to use Terminal256Formatter or
 # TerminalTrueColorFormatter.
-from pygments.formatters import Terminal256Formatter
-from pygments.lexers import Python3Lexer
+from pygments.formatters import \
+    Terminal256Formatter  # pylint: disable=no-name-in-module
+from pygments.lexers import Python3Lexer  # pylint: disable=no-name-in-module
 
 from .coloring import SolarizedDark
 
@@ -119,9 +120,9 @@ def build_call_path(outer_frames):
                     call_path.append(('<RTE>'))
                 retry_on_exception_section = True
                 continue
-            else:
-                click_section = False
-                retry_on_exception_section = False
+
+            click_section = False
+            retry_on_exception_section = False
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
                 path = reduce_path(item['path'], root_program=root_program)
