@@ -106,6 +106,7 @@ def build_call_path(outer_frames):
     call_list_length = len(call_list_reversed)
     click_section = False
     retry_on_exception_section = False
+    asserttool_section = False
     item = None
     for index, item in enumerate(call_list_reversed):
         eprint(index, item)
@@ -120,9 +121,15 @@ def build_call_path(outer_frames):
                     call_path.append(('<RTE>'))
                 retry_on_exception_section = True
                 continue
+            if item['path'].startswith('asserttool/'):
+                if not asserttool_section:
+                    call_path.append(('<AT>'))
+                asserttool_section = True
+                continue
 
             click_section = False
             retry_on_exception_section = False
+            asserttool_section = False
             if item['path'] != previous_item['path']:
                 call_path.append(('→ '))
                 path = reduce_path(item['path'], root_program=root_program)
