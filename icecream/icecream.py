@@ -107,7 +107,7 @@ def build_call_path(outer_frames):
     retry_on_exception_section = False
     item = None
     for index, item in enumerate(call_list_reversed):
-    #    eprint(index, item)
+        eprint(index, item)
         if index > 0:
             if item['path'].startswith('click/'):
                 if not click_section:
