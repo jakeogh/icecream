@@ -374,14 +374,17 @@ class IceCreamDebugger:
         if call_node is None:
             raise NoSourceAvailableError()
 
-        context = format_context(call_frame, call_node)
-        #eprint("context:", context)  # file.py:13 in <module>
+        context = ''
+        if self.includeContext:
+            context = format_context(call_frame, call_node)
+            #eprint("context:", context)  # file.py:13 in <module>
+
         if not args:
             time = format_time()
             out = prefix + context + time
         else:
-            if not self.includeContext:
-                context = ''
+            #if not self.includeContext:
+            #    context = ''
             out = self._format_args(call_frame, call_node, prefix, context, args)
 
         #eprint(out)
