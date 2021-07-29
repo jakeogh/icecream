@@ -325,11 +325,6 @@ def format_pair(prefix, arg, value):
     return '\n'.join(lines)
 
 
-#def argument_to_string(obj):
-#    s = repr(obj)
-#    return s
-
-
 class IceCreamDebugger:
     _pairDelimiter = ', '  # Used by the tests in tests/.
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
