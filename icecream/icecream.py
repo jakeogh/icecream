@@ -414,6 +414,12 @@ class IceCreamDebugger:
 
         return '\n'.join(lines)
 
+    def disable(self):
+        pass  # always enabled
+
+    def enable(self):
+        pass  # always enabled
+
     def configureOutput(self,
                         prefix=_absent,
                         arg_to_string_function=_absent,
