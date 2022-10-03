@@ -27,7 +27,7 @@
 # pylint: disable=E1101     # no member for base
 # pylint: disable=W0201     # attribute defined outside __init__
 # pylint: disable=W0201     # attribute defined outside __init__
-
+from __future__ import annotations
 
 # import ast
 import inspect
@@ -343,11 +343,16 @@ class IceCreamDebugger:
     contextDelimiter = DEFAULT_CONTEXT_DELIMITER
 
     def __init__(
-        self, prefix=DEFAULT_PREFIX, arg_to_string_function=repr, includeContext=True
+        self,
+        prefix=DEFAULT_PREFIX,
+        arg_to_string_function=repr,
+        includeContext=True,
+        outputFunction=colorized_stderr_print,
     ):
         self.prefix = prefix
         self.includeContext = includeContext
         self.arg_to_string_function = arg_to_string_function
+        self.outputFunction = outputFunction
 
     def __call__(self, *args):
         call_frame = inspect.currentframe().f_back
@@ -357,7 +362,9 @@ class IceCreamDebugger:
             prefix = call_or_value(self.prefix)
             out = prefix + "Error: " + err.infoMessage
         # print(out)
-        colorized_stderr_print(out)
+
+        # colorized_stderr_print(out)  # this is the outputFunction
+        self.outputFunction(out)  # this is the outputFunction
 
         if not args:  # E.g. ic().
             passthrough = None
