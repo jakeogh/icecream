@@ -361,7 +361,6 @@ class IceCreamDebugger:
         except NoSourceAvailableError as err:
             prefix = call_or_value(self.prefix)
             out = prefix + "Error: " + err.infoMessage
-        # print(out)
 
         # colorized_stderr_print(out)  # this is the outputFunction
         self.outputFunction(out)  # this is the outputFunction
