@@ -273,6 +273,7 @@ DEFAULT_PREFIX = "ic| "
 DEFAULT_CONTEXT_DELIMITER = "→ "
 ##DEFAULT_ARG_TO_STRING_FUNCTION = pprint.pformat
 # DEFAULT_ARG_TO_STRING_FUNCTION = repr
+DEFAULT_OUTPUT_FUNCTION = colorized_stderr_print
 
 
 class NoSourceAvailableError(OSError):
@@ -347,7 +348,7 @@ class IceCreamDebugger:
         prefix=DEFAULT_PREFIX,
         arg_to_string_function=repr,
         includeContext=True,
-        outputFunction=colorized_stderr_print,
+        outputFunction=DEFAULT_OUTPUT_FUNCTION,
     ):
         self.prefix = prefix
         self.includeContext = includeContext
@@ -442,7 +443,11 @@ class IceCreamDebugger:
         pass  # always enabled
 
     def configureOutput(
-        self, prefix=_absent, arg_to_string_function=_absent, includeContext=_absent
+        self,
+        prefix=_absent,
+        arg_to_string_function=_absent,
+        outputFunction=_absent,
+        includeContext=_absent,
     ):
         if prefix is not _absent:
             self.prefix = prefix
@@ -452,6 +457,9 @@ class IceCreamDebugger:
 
         if includeContext is not _absent:
             self.includeContext = includeContext
+
+        if outputFunction is not _absent:
+            self.outputFunction = outputFunction
 
 
 ic = IceCreamDebugger()
