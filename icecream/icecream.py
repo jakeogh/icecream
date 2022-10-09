@@ -350,18 +350,20 @@ class IceCreamDebugger:
         includeContext=True,
         outputFunction=DEFAULT_OUTPUT_FUNCTION,
     ):
+        self.enabled = True
         self.prefix = prefix
         self.includeContext = includeContext
         self.arg_to_string_function = arg_to_string_function
         self.outputFunction = outputFunction
 
     def __call__(self, *args):
-        call_frame = inspect.currentframe().f_back
-        try:
-            out = self._format(call_frame, *args)
-        except NoSourceAvailableError as err:
-            prefix = call_or_value(self.prefix)
-            out = prefix + "Error: " + err.infoMessage
+        if self.enabled:
+            call_frame = inspect.currentframe().f_back
+            try:
+                out = self._format(call_frame, *args)
+            except NoSourceAvailableError as err:
+                prefix = call_or_value(self.prefix)
+                out = prefix + "Error: " + err.infoMessage
 
         # colorized_stderr_print(out)  # this is the outputFunction
         self.outputFunction(out)  # this is the outputFunction
@@ -437,10 +439,12 @@ class IceCreamDebugger:
         return "\n".join(lines)
 
     def disable(self):
-        pass  # always enabled
+        self.enabled = False
+        # pass  # always enabled
 
     def enable(self):
-        pass  # always enabled
+        self.enabled = True
+        # pass  # always enabled
 
     def configureOutput(
         self,
