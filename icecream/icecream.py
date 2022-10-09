@@ -365,8 +365,8 @@ class IceCreamDebugger:
                 prefix = call_or_value(self.prefix)
                 out = prefix + "Error: " + err.infoMessage
 
-        # colorized_stderr_print(out)  # this is the outputFunction
-        self.outputFunction(out)  # this is the outputFunction
+            # colorized_stderr_print(out)  # this is the outputFunction
+            self.outputFunction(out)  # this is the outputFunction
 
         if not args:  # E.g. ic().
             passthrough = None
