@@ -85,7 +85,7 @@ def reduce_path(path, *, root_program):
     if path.startswith("/"):
         path = path[1:]
     if path.startswith(root_program + "/"):
-        path = path.replace(root_program, "")
+        path = path.replace(root_program, "", 1)
     return path
 
 
@@ -130,7 +130,7 @@ def build_call_path(outer_frames):
                 continue
             if item["path"].startswith("retry_on_exception/"):
                 if not retry_on_exception_section:
-                    call_path.append(("<RTE>"))
+                    call_path.append(("<RTOE>"))
                 retry_on_exception_section = True
                 continue
             if item["path"].startswith("asserttool/"):

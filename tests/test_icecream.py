@@ -20,7 +20,7 @@ from contextlib import contextmanager
 from os.path import basename, splitext
 
 import icecream
-from icecream import ic, stderrPrint, NoSourceAvailableError
+from asserttool import ic, stderrPrint, NoSourceAvailableError
 
 
 TEST_PAIR_DELIMITER = '| '
@@ -289,7 +289,7 @@ class TestIceCream(unittest.TestCase):
             assert ic(1, 2, 3) == (1, 2, 3)
 
     def testDifferentName(self):
-        from icecream import ic as foo
+        from asserttool import ic as foo
         with disableColoring(), captureStandardStreams() as (out, err):
             foo()
         assert lineIsContextAndTime(err.getvalue())
