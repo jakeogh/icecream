@@ -144,7 +144,7 @@ def build_call_path(outer_frames):
                     call_path.append(("<ICE>"))
                 frozen_section = True
                 continue
-            # eprint(item["path"])
+            eprint(item["path"])
 
             click_section = False
             retry_on_exception_section = False
