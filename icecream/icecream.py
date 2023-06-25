@@ -119,6 +119,7 @@ def build_call_path(outer_frames):
     click_section = False
     retry_on_exception_section = False
     asserttool_section = False
+    frozen_section = False
     item = None
     for index, item in enumerate(call_list_reversed):
         # eprint(index, item)
@@ -138,11 +139,17 @@ def build_call_path(outer_frames):
                     call_path.append(("<AT>"))
                 asserttool_section = True
                 continue
-            eprint(item["path"])
+            if item["path"].startswith("/<frozen importlib._bootstrap>"):
+                if not frozen_section:
+                    call_path.append(("<ICE>"))
+                frozen_section = True
+                continue
+            # eprint(item["path"])
 
             click_section = False
             retry_on_exception_section = False
             asserttool_section = False
+            frozen_session = False
             if item["path"] != previous_item["path"]:
                 call_path.append(("→ "))
                 path = reduce_path(item["path"], root_program=root_program)
