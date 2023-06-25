@@ -149,7 +149,7 @@ def build_call_path(outer_frames):
             click_section = False
             retry_on_exception_section = False
             asserttool_section = False
-            frozen_session = False
+            frozen_section = False
             if item["path"] != previous_item["path"]:
                 call_path.append(("→ "))
                 path = reduce_path(item["path"], root_program=root_program)
